@@ -1,6 +1,6 @@
-import { Flex, HStack, Heading, Spacer, Box, Text, Input } from "@chakra-ui/react";
-import {SearchIcon} from '@chakra-ui/icons'
-import { FaShoppingCart } from "react-icons/fa";
+import { Flex, Heading, Spacer } from "@chakra-ui/react";
+import CartDrawer from "./CartDrawer";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   return (
@@ -8,22 +8,10 @@ export default function Navbar() {
     <Flex as="nav" p="10px" alignItems="center">
       <Heading as="h1">InnoBuy</Heading>
       <Spacer />
-
-      <HStack spacing="20px">
-        <Box p="10px" as="button" onClick={()=>console.log("clicked")}>
-          <center>
-            <FaShoppingCart />
-            <Text>Cart</Text>
-          </center>
-        </Box>
-      </HStack>
-
+      <CartDrawer />
     </Flex>
 
-    <HStack p="10px">
-      <SearchIcon />
-      <Input placeholder="Search for product" />
-    </HStack>
+    <SearchBar />
   </>
   )
 }
