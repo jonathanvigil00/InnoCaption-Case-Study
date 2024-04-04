@@ -1,5 +1,8 @@
 import { useRef } from 'react';
 import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from '../context/CartContext.jsx';
+import CartItem from './CartItem.jsx';
+
 import {
     Drawer,
     DrawerBody,
@@ -10,51 +13,67 @@ import {
     DrawerCloseButton,
     Button,
     Box,
-    Input,
+    // Input,
     useDisclosure,
-    Text
+    Text,
+    VStack,
   } from '@chakra-ui/react';
 
-  export default function CartDrawer() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const btnRef = useRef()
-  
-    return (
-      <>
-        {/* <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-          Open
-        </Button> */}
+export default function CartDrawer() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef()
+  const { cartItems, removeFromCart, clearCart, updateCartItemQuantity } = useCart();
 
-        <Box p="10px" as="button" onClick={onOpen}>
-          <center>
-            <FaShoppingCart />
-            <Text>Cart</Text>
-          </center>
-        </Box>
+  const updateQuantity = (itemId, quantity) => {
+    updateCartItemQuantity(itemId, quantity);
+  };
 
-        <Drawer
-          isOpen={isOpen}
-          placement='right'
-          onClose={onClose}
-          finalFocusRef={btnRef}
-        >
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Shopping Cart</DrawerHeader>
-  
-            <DrawerBody>
-              <Input placeholder='Type here...' />
-            </DrawerBody>
-  
-            <DrawerFooter>
-              <Button variant='outline' mr={3} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme='blue'>Save</Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </>
-    )
-  }
+  return (
+    <>
+
+      <Box p="15px" as="button" onClick={onOpen}>
+        <center>
+          <FaShoppingCart size={'2rem'} />
+          <Text fontSize="2xl">Cart</Text>
+        </center>
+      </Box>
+
+      <Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Shopping Cart</DrawerHeader>
+
+          <DrawerBody>
+            <VStack>
+              {cartItems.length === 0 ? (
+                <Text>No Items in Cart</Text>
+                ) : (
+                cartItems.map(item => (
+                  <CartItem
+                    key={item.id}
+                    item={item}
+                    updateQuantity={updateQuantity}
+                    removeItem={removeFromCart}
+                  />
+                ))
+              )}
+            </VStack>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button colorScheme='red' onClick={()=>clearCart()} variant='outline' mr={3} >
+              Clear Cart
+            </Button>
+            <Button colorScheme='blue'>Checkout</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
+  )
+}

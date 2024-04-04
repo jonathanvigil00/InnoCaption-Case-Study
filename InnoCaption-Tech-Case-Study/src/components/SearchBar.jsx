@@ -1,43 +1,34 @@
 import { HStack, Input, Button } from "@chakra-ui/react";
 import {SearchIcon} from '@chakra-ui/icons'; 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-export default function SearchBar(){
+export default function SearchBar({ setProducts }){
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
    
-    // Function to handle the search input change
     const handleInputChange = (event) => {
-       setSearchTerm(event.target.value);
-       console.log(searchTerm);
-    };
-   
-    // Function to perform the API call
-    useEffect(() => {
-       const fetchData = async () => {
-         if (searchTerm) {
-           try {
-             const response = await fetch(`YOUR_API_ENDPOINT?query=${searchTerm}`);
-             const data = await response.json();
-             setSearchResults(data);
-           } catch (error) {
-             console.error('Error fetching data: ', error);
-           }
-         }
-       };
-   
-       fetchData();
-    }, [searchTerm]);
+        setSearchTerm(event.target.value);
+     };
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`https://dummyjson.com/products/search?q=${searchTerm}&limit=10`); //query={searchTerm} &skip=10&select=title,price
+            const data = await response.json();
+            setProducts(data.products);
+            console.log(data.products);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+        }
+    }
 
     return(
-        <HStack p="10px">
+        <HStack p="15px">
         <SearchIcon />
         <Input
             placeholder="Search for product"
-            // value={searchTerm}
-            // onChange={handleInputChange}
+            value={searchTerm}
+            onChange={handleInputChange}
         />
-        <Button onClick={handleInputChange}>Search</Button>
+        <Button onClick={fetchData}>Search</Button>
         </HStack>
  );
 }
