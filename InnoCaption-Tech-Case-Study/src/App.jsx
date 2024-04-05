@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-// import Cart from './pages/Cart';
+import ProductPage from './pages/ProductPage';
 import Navbar from './components/Navbar';
 import { Box } from '@chakra-ui/react';
 
@@ -8,10 +8,10 @@ function App(){
   return (
   <Router>
     <Navbar />
-    <Box as="main" pt="100px">
+    <Box as="main" pt="120px">
       <Routes>
         <Route path="/" element={<Dashboard/>} />
-        {/* <Route path="/cart" element={<Cart />} /> */}
+        <Route path="/product" element={<ProductPage />} />
       </Routes>
     </Box>
   </Router>

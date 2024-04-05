@@ -1,5 +1,11 @@
 import { createContext, useState, useContext } from 'react';
 import { useToast } from '@chakra-ui/react'
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+  } from '@chakra-ui/react'
 
 const CartContext = createContext();
 
@@ -37,11 +43,10 @@ export const CartProvider = ({ children }) => {
             status: "info",
             duration: 3000,
           });
-
     };
 
     const getCartTotal = () => {
-        return cartItems.reduce((total, item) => total + item.price, 0);
+        return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     };
     const updateCartItemQuantity = (itemId, quantity) => {
         setCartItems(cartItems.map(item =>
@@ -49,8 +54,19 @@ export const CartProvider = ({ children }) => {
         ));
     };
 
+    const checkout = () => {
+        setCartItems([]);
+        toast({
+            title: "Oder Submitted!",
+            description: "Thanks for shopping with us. Your order will be shipped soon.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+         });
+    }
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getCartTotal, updateCartItemQuantity }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getCartTotal, updateCartItemQuantity,checkout }}>
             {children}
         </CartContext.Provider>
  );
