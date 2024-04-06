@@ -1,16 +1,11 @@
 import { createContext, useState, useContext } from 'react';
 import { useToast } from '@chakra-ui/react'
-import {
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    AlertDescription,
-  } from '@chakra-ui/react'
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const [recentItems, setRecentItems] = useState([]);
     const toast = useToast();
 
 
@@ -65,8 +60,28 @@ export const CartProvider = ({ children }) => {
          });
     }
 
+    const viewed = (product) => {
+        console.log('here');
+        setRecentItems(recentItems => {
+            if (recentItems.length >= 3) {
+              return [...recentItems.slice(1), product];
+            } else {
+              return [...recentItems, product];
+            }
+        });
+    }
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getCartTotal, updateCartItemQuantity,checkout }}>
+        <CartContext.Provider value={{ cartItems, 
+                                        addToCart, 
+                                        removeFromCart, 
+                                        clearCart, 
+                                        getCartTotal, 
+                                        updateCartItemQuantity,
+                                        checkout,
+                                        recentItems,
+                                        viewed
+        }}>
             {children}
         </CartContext.Provider>
  );

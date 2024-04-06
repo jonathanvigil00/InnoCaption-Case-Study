@@ -1,10 +1,8 @@
 import { useRef, useState } from 'react';
-import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from '../context/CartContext.jsx';
 import CartItem from './CartItem.jsx';
 import { Spinner } from '@chakra-ui/react';
-
-
+import ShoppingCartIcon from './ShoppingCartIcon.jsx';
 import {
     Drawer,
     DrawerBody,
@@ -50,13 +48,7 @@ export default function CartDrawer() {
 
   return (
     <>
-
-      <Box p="15px" as="button" onClick={onOpen}>
-        <center>
-          <FaShoppingCart size={'2rem'} />
-          <Text fontSize="2xl">Cart</Text>
-        </center>
-      </Box>
+      <ShoppingCartIcon itemCount={cartItems.length} func={onOpen} />
 
       <Drawer
         size={'md'}
@@ -84,9 +76,7 @@ export default function CartDrawer() {
                       updateQuantity={updateQuantity}
                       removeItem={removeFromCart}
                     />
-                  ))
-                )
-              }
+              )))}
 
             </VStack>
           </DrawerBody>
@@ -99,6 +89,7 @@ export default function CartDrawer() {
             <Button colorScheme='red' onClick={()=>clearCart()} variant='outline' mr={3} >
               Clear Cart
             </Button>
+
             <Button onClick={()=>handleCheckout()} colorScheme='blue'>Checkout</Button>
           </DrawerFooter>
         </DrawerContent>

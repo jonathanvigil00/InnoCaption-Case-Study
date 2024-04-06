@@ -8,10 +8,10 @@ function App(){
   return (
   <Router>
     <Navbar />
-    <Box as="main" pt="120px">
+    <Box as="main" pt="90px">
       <Routes>
         <Route path="/" element={<Dashboard/>} />
-        <Route path="/product" element={<ProductPage />} />
+        <Route path="/products/:id" element={<ProductPage />} />
       </Routes>
     </Box>
   </Router>

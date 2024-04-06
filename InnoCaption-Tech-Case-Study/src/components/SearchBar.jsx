@@ -14,7 +14,6 @@ export default function SearchBar({ setProducts }){
             const response = await fetch(`https://dummyjson.com/products/search?q=${searchTerm}&limit=10`); //query={searchTerm} &skip=10&select=title,price
             const data = await response.json();
             setProducts(data.products);
-            console.log(data.products);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
@@ -27,8 +26,15 @@ export default function SearchBar({ setProducts }){
             placeholder="Search for product"
             value={searchTerm}
             onChange={handleInputChange}
+            borderColor="#5fa8d3"
+            borderWidth="2px"
         />
-        <Button onClick={fetchData}>Search</Button>
+        <Button 
+            bg="#1b4965" 
+            color="#Cae9ff" 
+            onClick={fetchData}
+            _hover={{bg: "#1a3d52"}}
+            >Search</Button>
         </HStack>
  );
 }
